@@ -2,6 +2,7 @@ package com.example.BackEnd.Controller;
 
 import com.example.BackEnd.Model.UsuarioBackEnd;
 import com.example.BackEnd.Repository.ManipularDados;
+import com.example.BackEnd.Security.EncriptacaoSenha;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,11 @@ public class UsuarioController {
             if (usuarioRequerido == null) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
             } else {
-                return ResponseEntity.ok(usuarioRequerido);
+                return ResponseEntity.ok(new UsuarioFrontEndCompleto(
+                        usuarioRequerido.getId(),
+                        usuarioRequerido.getNome(),
+                        usuarioRequerido.getEmail(),
+                        usuarioRequerido.getImagem()));
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -32,19 +37,27 @@ public class UsuarioController {
     @PostMapping("/login")
     public ResponseEntity<?> postLogin(@RequestBody VerificacaoBasica usuario){
         try {
-            UsuarioBackEnd usuarioRequerido = ManipularDados.getUsuario(usuario.getEmail());
+            UsuarioBackEnd usuarioBackEnd = ManipularDados.getUsuario(usuario.getEmail());
 
-            if (usuario.getEmail().equals(usuarioRequerido.getEmail()) && usuario.getSenha().equals(usuarioRequerido.getSenha())) {
-                return ResponseEntity.ok(new UsuarioFrontEndCompleto(
-                        usuarioRequerido.getId(),
-                        usuarioRequerido.getNome(),
-                        usuarioRequerido.getEmail(),
-                        usuarioRequerido.getImagem()));
+            if (usuarioBackEnd == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
+            }
+
+            if (usuario.getEmail().equals(usuarioBackEnd.getEmail()) &&
+                    EncriptacaoSenha.validarSenha(usuario.getSenha(), usuarioBackEnd.getSenha())) {
+
+                UsuarioFrontEndCompleto usuarioFrontEndCompleto = new UsuarioFrontEndCompleto(
+                        usuarioBackEnd.getId(),
+                        usuarioBackEnd.getNome(),
+                        usuarioBackEnd.getEmail(),
+                        usuarioBackEnd.getImagem());
+
+                return ResponseEntity.ok(usuarioFrontEndCompleto);
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário ou senha inválidos");
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro ao realizar login");
         }
     }
 
@@ -55,6 +68,8 @@ public class UsuarioController {
             @RequestParam("senha") String senha,
             @RequestPart("imagem") MultipartFile imagem
     ) {
+        senha = EncriptacaoSenha.encriptarSenha(senha);
+
         CadastrarUsuario cadastrarUsuario = new CadastrarUsuario(nome, email, senha, imagem);
 
         try {
@@ -63,7 +78,8 @@ public class UsuarioController {
             UsuarioBackEnd usuario = new UsuarioBackEnd(
                     cadastrarUsuario.getNome(),
                     cadastrarUsuario.getEmail(),
-                    cadastrarUsuario.getSenha(), imagemByte);
+                    cadastrarUsuario.getSenha(),
+                    imagemByte);
 
             return ResponseEntity.ok(ManipularDados.postUsuario(usuario));
         } catch (Exception e) {

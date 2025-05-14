@@ -3,23 +3,23 @@ package com.example.BackEnd.Model;
 import com.example.BackEnd.Util.ByteArrayMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Base64;
+
 public class UsuarioFrontEndCompleto {
     private int id;
     private String nome;
     private String email;
-    private MultipartFile imagem;
-
-    public UsuarioFrontEndCompleto(String nome, String email, byte[] imagem) {
-        this.nome = nome;
-        this.email = email;
-        this.imagem = new ByteArrayMultipartFile(imagem, "imagem", "imagem.jpg", "image/jpeg");
-    }
+    private String imagem;
 
     public UsuarioFrontEndCompleto(int id, String nome, String email, byte[] imagem) {
         this.id = id;
         this.nome = nome;
         this.email = email;
-        this.imagem = new ByteArrayMultipartFile(imagem, "imagem", "imagem.jpg", "image/jpeg");
+        if (imagem != null && imagem.length > 0) {
+            this.imagem = Base64.getEncoder().encodeToString(imagem);
+        } else {
+            this.imagem = null;
+        }
     }
 
     public int getId() {
@@ -46,11 +46,11 @@ public class UsuarioFrontEndCompleto {
         this.email = email;
     }
 
-    public MultipartFile getImagem() {
+    public String getImagem() {
         return imagem;
     }
 
-    public void setImagem(MultipartFile imagem) {
+    public void setImagem(String imagem) {
         this.imagem = imagem;
     }
 }
