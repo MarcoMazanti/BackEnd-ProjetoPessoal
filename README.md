@@ -3,9 +3,10 @@
 ## Site para Jogar Xadrez
 
 ### Objetivos
-- [X] Criação de EndPoints
+- [X] Criação de EndPoints para Login e Registro
 - [X] Manuseio do Banco de Dados
-- [ ] Aplicação de Criptografia na Senha
+- [X] Aplicação de Criptografia na Senha
+- [X] Criar Endpoints para Ranking
 - [ ] Criação da Lógica do Xadrez
 - [ ] Verificação de Jogadas
 - [ ] Adicionar Amigos

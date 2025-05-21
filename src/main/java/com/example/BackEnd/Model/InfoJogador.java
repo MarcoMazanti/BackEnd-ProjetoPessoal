@@ -1,28 +1,20 @@
 package com.example.BackEnd.Model;
 
-import java.util.Base64;
-
-public class UsuarioFrontEndCompleto {
+public class InfoJogador {
     private int id;
     private String nome;
-    private String email;
-    private String imagem;
     private int pontuacao;
+    private int ranking;
     private int jogosParticipados;
     private int vitorias;
     private int empates;
     private int derrotas;
 
-    public UsuarioFrontEndCompleto(int id, String nome, String email, byte[] imagem, int pontuacao, int jogosParticipados, int vitorias, int empates, int derrotas) {
+    public InfoJogador(int id, String nome, int pontuacao, int ranking, int jogosParticipados, int vitorias, int empates, int derrotas) {
         this.id = id;
         this.nome = nome;
-        this.email = email;
-        if (imagem != null && imagem.length > 0) {
-            this.imagem = Base64.getEncoder().encodeToString(imagem);
-        } else {
-            this.imagem = null;
-        }
         this.pontuacao = pontuacao;
+        this.ranking = ranking;
         this.jogosParticipados = jogosParticipados;
         this.vitorias = vitorias;
         this.empates = empates;
@@ -45,28 +37,20 @@ public class UsuarioFrontEndCompleto {
         this.nome = nome;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getImagem() {
-        return imagem;
-    }
-
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
-    }
-
     public int getPontuacao() {
         return pontuacao;
     }
 
     public void setPontuacao(int pontuacao) {
         this.pontuacao = pontuacao;
+    }
+
+    public int getRanking() {
+        return ranking;
+    }
+
+    public void setRanking(int ranking) {
+        this.ranking = ranking;
     }
 
     public int getJogosParticipados() {

@@ -1,7 +1,8 @@
 package com.example.BackEnd.Controller;
 
 import com.example.BackEnd.Model.UsuarioBackEnd;
-import com.example.BackEnd.Repository.ManipularDados;
+import com.example.BackEnd.Repository.TabelaUsuario;
+import com.example.BackEnd.Repository.TabelaInfoJogador;
 import com.example.BackEnd.Security.EncriptacaoSenha;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -13,21 +14,27 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/usuarios")
-@CrossOrigin(origins = "http://localhost:63342")
 public class UsuarioController {
     @GetMapping("/{email}")
     public ResponseEntity<?> getUsuario(@PathVariable("email") String email){
         try {
-            UsuarioBackEnd usuarioRequerido = ManipularDados.getUsuario(email);
+            UsuarioBackEnd usuarioRequerido = TabelaUsuario.getUsuarioUnico(email);
 
             if (usuarioRequerido == null) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
             } else {
+                InfoJogador infoJogador = TabelaInfoJogador.getInfoJogadorUnico(usuarioRequerido.getId());
+
                 return ResponseEntity.ok(new UsuarioFrontEndCompleto(
                         usuarioRequerido.getId(),
                         usuarioRequerido.getNome(),
                         usuarioRequerido.getEmail(),
-                        usuarioRequerido.getImagem()));
+                        usuarioRequerido.getImagem(),
+                        infoJogador.getPontuacao(),
+                        infoJogador.getJogosParticipados(),
+                        infoJogador.getVitorias(),
+                        infoJogador.getEmpates(),
+                        infoJogador.getDerrotas()));
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -37,20 +44,23 @@ public class UsuarioController {
     @PostMapping("/login")
     public ResponseEntity<?> postLogin(@RequestBody VerificacaoBasica usuario){
         try {
-            UsuarioBackEnd usuarioBackEnd = ManipularDados.getUsuario(usuario.getEmail());
-
-            if (usuarioBackEnd == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
-            }
+            UsuarioBackEnd usuarioBackEnd = TabelaUsuario.getUsuarioUnico(usuario.getEmail());
 
             if (usuario.getEmail().equals(usuarioBackEnd.getEmail()) &&
                     EncriptacaoSenha.validarSenha(usuario.getSenha(), usuarioBackEnd.getSenha())) {
+
+                InfoJogador infoJogador = TabelaInfoJogador.getInfoJogadorUnico(usuarioBackEnd.getId());
 
                 UsuarioFrontEndCompleto usuarioFrontEndCompleto = new UsuarioFrontEndCompleto(
                         usuarioBackEnd.getId(),
                         usuarioBackEnd.getNome(),
                         usuarioBackEnd.getEmail(),
-                        usuarioBackEnd.getImagem());
+                        usuarioBackEnd.getImagem(),
+                        infoJogador.getPontuacao(),
+                        infoJogador.getJogosParticipados(),
+                        infoJogador.getVitorias(),
+                        infoJogador.getEmpates(),
+                        infoJogador.getDerrotas());
 
                 return ResponseEntity.ok(usuarioFrontEndCompleto);
             } else {
@@ -81,7 +91,7 @@ public class UsuarioController {
                     cadastrarUsuario.getSenha(),
                     imagemByte);
 
-            return ResponseEntity.ok(ManipularDados.postUsuario(usuario));
+            return ResponseEntity.ok(TabelaUsuario.postUsuario(usuario));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
