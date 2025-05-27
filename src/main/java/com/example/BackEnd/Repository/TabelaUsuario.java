@@ -31,7 +31,7 @@ public class TabelaUsuario {
         return listaUsuarios;
     }
 
-    public static UsuarioBackEnd getUsuarioUnico(String email) throws SQLException {
+    public static UsuarioBackEnd getUsuarioUnicoEmail(String email) throws SQLException {
         String sql = "SELECT * FROM usuario WHERE email = ?";
         PreparedStatement stmt = conexao.prepareStatement(sql);
 
@@ -55,6 +55,30 @@ public class TabelaUsuario {
         return usuario;
     }
 
+    public static UsuarioBackEnd getUsuarioUnicoID(int id) throws SQLException {
+        String sql = "SELECT * FROM usuario WHERE id = ?";
+        PreparedStatement stmt = conexao.prepareStatement(sql);
+
+        stmt.setInt(1, id);
+
+        ResultSet resultado = stmt.executeQuery();
+        UsuarioBackEnd usuarioID = null;
+
+        if (resultado.next()) {
+            usuarioID = new UsuarioBackEnd(
+                    resultado.getInt("id"),
+                    resultado.getString("nome"),
+                    resultado.getString("email"),
+                    resultado.getString("senha"),
+                    resultado.getBytes("imagem"));
+        }
+
+        resultado.close();
+        stmt.close();
+
+        return usuarioID;
+    }
+
     public static String postUsuario(UsuarioBackEnd usuario) throws SQLException {
         String sql = "INSERT INTO usuario (nome, email, senha, imagem) VALUES (?, ?, ?, ?)";
         PreparedStatement stmt = conexao.prepareStatement(sql);
@@ -70,7 +94,7 @@ public class TabelaUsuario {
         System.out.println("Usuario cadastrado com sucesso!");
 
         // adcionar o usuario nas demais tabelas
-        UsuarioBackEnd usuarioLogado = getUsuarioUnico(usuario.getEmail());
+        UsuarioBackEnd usuarioLogado = getUsuarioUnicoEmail(usuario.getEmail());
 
         // Tabela info_jogador
         TabelaInfoJogador.postInfoJogador(usuarioLogado.getId(), usuarioLogado.getNome());
@@ -97,15 +121,15 @@ public class TabelaUsuario {
         return "Usuario alterado com sucesso!";
     }
 
-    public static String deleteUsuario(String email) throws SQLException {
-        String sql = "DELETE FROM usuario WHERE email = ?";
+    public static String deleteUsuario(int id) throws SQLException {
+        String sql = "DELETE FROM usuario WHERE id = ?";
         PreparedStatement stmt = conexao.prepareStatement(sql);
 
-        stmt.setString(1, email);
+        stmt.setInt(1, id);
 
         stmt.execute();
         stmt.close();
 
-        return "Usuario excluÃdo com sucesso!";
+        return "Usuario excluido com sucesso!";
     }
 }
