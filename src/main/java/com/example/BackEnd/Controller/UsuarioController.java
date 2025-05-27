@@ -132,6 +132,24 @@ public class UsuarioController {
         }
     }
 
+
+    @PostMapping("/verificarInexistenciaEmail")
+    public ResponseEntity<?> postVerificarEmailUsuarioCadastro(@RequestPart("email") String email) {
+        try {
+            List<UsuarioBackEnd> usuarios = TabelaUsuario.getUsuarios();
+
+            for (UsuarioBackEnd usuario : usuarios) {
+                if (usuario.getEmail().equals(email)) {
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("Email já cadastrado");
+                }
+            }
+
+            return ResponseEntity.ok("Email não cadastrado");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
     @PutMapping(value = "/atualizar/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> putUsuario(
             @PathVariable int id,
