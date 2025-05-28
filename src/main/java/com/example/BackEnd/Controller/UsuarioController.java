@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import com.example.BackEnd.Model.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,6 +42,23 @@ public class UsuarioController {
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @GetMapping("/todos")
+    public ResponseEntity<?> getUsuarios(){
+        try {
+            List<UsuarioBackEnd> usuarios = TabelaUsuario.getUsuarios();
+            List<UsuarioFrontEndParcial> usuariosFrontEndParcial = new ArrayList<>();
+
+            for (UsuarioBackEnd usuario : usuarios) {
+                UsuarioFrontEndParcial usuarioFrontEndParcialAux = new UsuarioFrontEndParcial(usuario.getId(), usuario.getNome(), usuario.getEmail());
+                usuariosFrontEndParcial.add(usuarioFrontEndParcialAux);
+            }
+
+            return ResponseEntity.ok(usuariosFrontEndParcial);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
