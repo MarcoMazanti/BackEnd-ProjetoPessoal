@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import com.example.BackEnd.Model.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,8 +20,66 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/usuarios")
 public class UsuarioController {
+    @GetMapping("/id/{id}")
+    public ResponseEntity<?> getUsuarioID(@PathVariable int id) {
+        try {
+            UsuarioBackEnd usuarioRequerido = TabelaUsuario.getUsuarioUnicoID(id);
+
+            if (usuarioRequerido == null) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            } else {
+                InfoJogador infoJogador = TabelaInfoJogador.getInfoJogadorUnico(usuarioRequerido.getId());
+
+                return ResponseEntity.ok(new UsuarioFrontEndCompleto(
+                        usuarioRequerido.getId(),
+                        usuarioRequerido.getNome(),
+                        usuarioRequerido.getEmail(),
+                        usuarioRequerido.getImagem(),
+                        infoJogador.getPontuacao(),
+                        infoJogador.getJogosParticipados(),
+                        infoJogador.getVitorias(),
+                        infoJogador.getEmpates(),
+                        infoJogador.getDerrotas()));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @GetMapping("/nome/{nome}")
+    public ResponseEntity<?> getUsuarioNome(@PathVariable("nome") String nome) {
+        try {
+            List<UsuarioBackEnd> listaUsuarios = TabelaUsuario.getUsuarioNome(nome);
+
+            if (listaUsuarios == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            } else {
+                List<UsuarioFrontEndCompleto> listaInfoJogadores = null;
+
+                for(UsuarioBackEnd usuario : listaUsuarios) {
+                    InfoJogador infoJogador = TabelaInfoJogador.getInfoJogadorUnico(usuario.getId());
+
+                    listaInfoJogadores.add(new UsuarioFrontEndCompleto(
+                            usuario.getId(),
+                            usuario.getNome(),
+                            usuario.getEmail(),
+                            usuario.getImagem(),
+                            infoJogador.getPontuacao(),
+                            infoJogador.getJogosParticipados(),
+                            infoJogador.getVitorias(),
+                            infoJogador.getEmpates(),
+                            infoJogador.getDerrotas()));
+                }
+
+                return ResponseEntity.ok(listaInfoJogadores);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
     @GetMapping("/{email}")
-    public ResponseEntity<?> getUsuario(@PathVariable("email") String email){
+    public ResponseEntity<?> getUsuario(@PathVariable("email") String email) {
         try {
             UsuarioBackEnd usuarioRequerido = TabelaUsuario.getUsuarioUnicoEmail(email);
 

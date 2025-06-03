@@ -28,6 +28,9 @@ public class TabelaUsuario {
             listaUsuarios.add(usuario);
         }
 
+        rs.close();
+        stmt.close();
+
         return listaUsuarios;
     }
 
@@ -79,6 +82,30 @@ public class TabelaUsuario {
         return usuarioID;
     }
 
+    public static List<UsuarioBackEnd> getUsuarioNome(String nome) throws SQLException {
+        String sql = "SELECT * FROM usuario WHERE nome = ?";
+        PreparedStatement stmt = conexao.prepareStatement(sql);
+
+        stmt.setString(1, nome);
+
+        ResultSet resultado = stmt.executeQuery();
+        List<UsuarioBackEnd> usuarioNome = null;
+
+        if (resultado.next()) {
+            usuarioNome.add(new UsuarioBackEnd(
+                    resultado.getInt("id"),
+                    resultado.getString("nome"),
+                    resultado.getString("email"),
+                    resultado.getString("senha"),
+                    resultado.getBytes("imagem")));
+        }
+
+        resultado.close();
+        stmt.close();
+
+        return usuarioNome;
+    }
+
     public static String postUsuario(UsuarioBackEnd usuario) throws SQLException {
         String sql = "INSERT INTO usuario (nome, email, senha, imagem) VALUES (?, ?, ?, ?)";
         PreparedStatement stmt = conexao.prepareStatement(sql);
@@ -90,8 +117,6 @@ public class TabelaUsuario {
 
         stmt.execute();
         stmt.close();
-
-        System.out.println("Usuario cadastrado com sucesso!");
 
         // adcionar o usuario nas demais tabelas
         UsuarioBackEnd usuarioLogado = getUsuarioUnicoEmail(usuario.getEmail());

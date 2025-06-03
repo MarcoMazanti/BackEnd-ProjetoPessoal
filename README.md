@@ -7,6 +7,7 @@
 - [X] Manuseio do Banco de Dados
 - [X] Aplicação de Criptografia na Senha
 - [X] Criar Endpoints para Ranking
+- [X] Criação do Sistema de Amizade
 - [ ] Criação da Lógica do Xadrez
 - [ ] Verificação de Jogadas
 - [ ] Adicionar Amigos
