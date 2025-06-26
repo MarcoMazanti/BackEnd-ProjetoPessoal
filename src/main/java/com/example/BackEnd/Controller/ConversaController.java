@@ -28,8 +28,8 @@ public class ConversaController {
         }
     }
 
-    @DeleteMapping()
-    public ResponseEntity<?> deleteConversaJogador(@RequestBody int id_amizade) {
+    @DeleteMapping("/{id_amizade}")
+    public ResponseEntity<?> deleteConversaJogador(@PathVariable int id_amizade) {
         try {
             return ResponseEntity.ok(deleteConversa(id_amizade));
         } catch (Exception e) {

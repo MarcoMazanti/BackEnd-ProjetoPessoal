@@ -49,7 +49,7 @@ public class TabelaConversa {
     }
 
     public static String deleteConversa(int idAmizade) throws SQLException {
-        String sql = "delete from Conversa where id_amizade = ?";
+        String sql = "DELETE FROM Conversa WHERE id_amizade = ?\n";
         PreparedStatement stmt = conexao.prepareStatement(sql);
 
         stmt.setInt(1, idAmizade);
