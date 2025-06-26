@@ -55,6 +55,15 @@ public class AmizadeController {
         }
     }
 
+    @GetMapping("/IDAmizade/{id1}/{id2}")
+    public ResponseEntity<?> getIdAmizadeJogador(@PathVariable int id1, @PathVariable int id2) {
+        try {
+            return ResponseEntity.ok(getIDAmizade(id1, id2));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
     @PostMapping("/criarAmizade")
     public ResponseEntity<?> postNovaAmizadePendente(@RequestBody Amizade amizadePendente) {
         try {

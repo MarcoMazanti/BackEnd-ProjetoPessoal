@@ -20,6 +20,7 @@ public class TabelaAmizade {
 
         while (rs.next()) {
             lista.add(new Amizade(
+                    rs.getInt("id"),
                     rs.getInt("id_jogador_1"),
                     rs.getInt("id_jogador_2"),
                     rs.getInt("amizade_pendente")
@@ -38,6 +39,7 @@ public class TabelaAmizade {
 
         while (rs.next()) {
             listaAmizadesPendente.add(new Amizade(
+                    rs.getInt("id"),
                     rs.getInt("id_jogador_1"),
                     rs.getInt("id_jogador_2"),
                     rs.getInt("amizade_pendente")));
@@ -55,6 +57,7 @@ public class TabelaAmizade {
 
         while (rs.next()) {
             listaAmizadesPendente.add(new Amizade(
+                    rs.getInt("id"),
                     rs.getInt("id_jogador_1"),
                     rs.getInt("id_jogador_2"),
                     rs.getInt("amizade_pendente")));
@@ -73,6 +76,7 @@ public class TabelaAmizade {
         while (rs.next()) {
             if (jogador == rs.getInt("id_jogador_1") || jogador == rs.getInt("id_jogador_2")) {
                 listaAmizadePendente.add(new Amizade(
+                        rs.getInt("id"),
                         rs.getInt("id_jogador_1"),
                         rs.getInt("id_jogador_2"),
                         rs.getInt("amizade_pendente")));
@@ -95,6 +99,7 @@ public class TabelaAmizade {
         while (rs.next()) {
             if (jogador == rs.getInt("id_jogador_1") || jogador == rs.getInt("id_jogador_2")) {
                 listaAmizadePendente.add(new Amizade(
+                        rs.getInt("id"),
                         rs.getInt("id_jogador_1"),
                         rs.getInt("id_jogador_2"),
                         rs.getInt("amizade_pendente")));
@@ -105,6 +110,29 @@ public class TabelaAmizade {
         stmt.close();
 
         return listaAmizadePendente;
+    }
+
+    public static Amizade getIDAmizade(int idJogador, int idAmigo) throws SQLException {
+        String sql = "SELECT * FROM amizade WHERE id_jogador_1 = ? AND id_jogador_2 = ? OR id_jogador_1 = ? AND id_jogador_2 = ?";
+        PreparedStatement stmt = conexao.prepareStatement(sql);
+
+        stmt.setInt(1, idJogador);
+        stmt.setInt(2, idAmigo);
+        stmt.setInt(3, idAmigo);
+        stmt.setInt(4, idJogador);
+
+        ResultSet rs = stmt.executeQuery();
+
+        Amizade amizade = new Amizade();
+
+        if (rs.next()) {
+            amizade.setId_amizade(rs.getInt("id"));
+            amizade.setId_jogador_1(rs.getInt("id_jogador_1"));
+            amizade.setId_jogador_2(rs.getInt("id_jogador_2"));
+            amizade.setAmizade_pendente(rs.getBoolean("amizade_pendente"));
+        }
+
+        return amizade;
     }
 
     public static String postAmizadePendente(Amizade amizadePendente) throws SQLException {

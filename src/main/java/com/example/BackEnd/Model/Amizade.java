@@ -1,11 +1,13 @@
 package com.example.BackEnd.Model;
 
 public class Amizade {
+    private int id_amizade;
     private int id_jogador_1;
     private int id_jogador_2;
     private boolean amizade_pendente;
 
-    public Amizade(int id_jogador_1, int id_jogador_2, int amizade_pendente) {
+    public Amizade(int id_amizade, int id_jogador_1, int id_jogador_2, int amizade_pendente) {
+        this.id_amizade = id_amizade;
         this.id_jogador_1 = id_jogador_1;
         this.id_jogador_2 = id_jogador_2;
         this.amizade_pendente = amizade_pendente == 1;
@@ -19,6 +21,14 @@ public class Amizade {
 
     public Amizade() {
         this.amizade_pendente = true;
+    }
+
+    public int getId_amizade() {
+        return id_amizade;
+    }
+
+    public void setId_amizade(int id_amizade) {
+        this.id_amizade = id_amizade;
     }
 
     public int getId_jogador_1() {
