@@ -3,14 +3,12 @@ package com.example.BackEnd.Model;
 public class RankingJogador {
     private int id;
     private String nome;
-    private int vitorias;
     private int pontuacao;
     private int ranking;
 
-    public RankingJogador(int id, String nome, int vitorias, int pontuacao, int ranking) {
+    public RankingJogador(int id, String nome, int pontuacao, int ranking) {
         this.id = id;
         this.nome = nome;
-        this.vitorias = vitorias;
         this.pontuacao = pontuacao;
         this.ranking = ranking;
     }
@@ -29,14 +27,6 @@ public class RankingJogador {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public int getVitorias() {
-        return vitorias;
-    }
-
-    public void setVitorias(int vitorias) {
-        this.vitorias = vitorias;
     }
 
     public int getPontuacao() {

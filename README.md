@@ -1,16 +1,25 @@
 # BackEnd
 - - -
-## Site para Jogar Xadrez
+## Site para Jogar Campo Minado
 
-### Objetivos
+### Objetivos Primários
+- [X] Aprender a Manusear EndPoints
+- [X] Aprender a Lógica de uma API
+- [X] Colocar o meu Conhecimento em Java em Prática
+
+### Objetivos Secundários
+- [X] Aprender a usar Hash
+- [X] Relembrar o Manuseio de SQL
+
+### Objetivos Terciários
 - [X] Criação de EndPoints para Login e Registro
 - [X] Manuseio do Banco de Dados
 - [X] Aplicação de Criptografia na Senha
 - [X] Criar Endpoints para Ranking
 - [X] Criação do Sistema de Amizade
-- [ ] Criação da Lógica do Xadrez
+- [X] Criação do Sistema de Chat
+- [ ] Criação da Lógica do Campo Minado
 - [ ] Verificação de Jogadas
-- [ ] Adicionar Amigos
 
 ### Tecnologias
 - Java

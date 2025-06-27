@@ -4,9 +4,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 
 public class EncriptacaoSenha {
     public static String encriptarSenha(String senha) {
-        String hash = BCrypt.hashpw(senha, BCrypt.gensalt());
-
-        return hash;
+        return BCrypt.hashpw(senha, BCrypt.gensalt());
     }
 
     public static boolean validarSenha(String senhaFront, String senhaBancoDeDados) {

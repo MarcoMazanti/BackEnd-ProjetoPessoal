@@ -1,12 +1,10 @@
 package com.example.BackEnd;
 
 import com.example.BackEnd.Model.InfoJogador;
-import com.example.BackEnd.Model.RankingJogador;
 import com.example.BackEnd.Model.UsuarioBackEnd;
 import com.example.BackEnd.Repository.BancoDeDados;
 import com.example.BackEnd.Repository.TabelaUsuario;
 import com.example.BackEnd.Repository.TabelaInfoJogador;
-import com.example.BackEnd.Repository.TabelaRanking;
 import jakarta.annotation.PreDestroy;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,7 +25,6 @@ public class BackEndApplication {
 
 		List<UsuarioBackEnd> listaUsuarios = TabelaUsuario.getUsuarios();
 		List<InfoJogador> listaInfoJogadores = TabelaInfoJogador.getInfoJogador();
-		List<RankingJogador> listaRanking = TabelaRanking.getRanking();
 		for (UsuarioBackEnd usuario : listaUsuarios) {
 			int verificarInfo = 0;
 			for (InfoJogador infoJogador : listaInfoJogadores) {
@@ -39,18 +36,6 @@ public class BackEndApplication {
 
 			if (verificarInfo == 0) {
 				TabelaInfoJogador.postInfoJogador(usuario.getId(), usuario.getNome());
-			}
-
-			int verificarRanking = 0;
-			for (RankingJogador rankingJogador : listaRanking) {
-				if (rankingJogador.getId() == usuario.getId()) {
-					verificarRanking = 1;
-					break;
-				}
-			}
-
-			if (verificarRanking == 0) {
-				TabelaRanking.postRanking(usuario.getId(), usuario.getNome());
 			}
 		}
 	}

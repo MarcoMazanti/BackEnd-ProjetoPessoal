@@ -35,11 +35,7 @@ public class UsuarioController {
                         usuarioRequerido.getNome(),
                         usuarioRequerido.getEmail(),
                         usuarioRequerido.getImagem(),
-                        infoJogador.getPontuacao(),
-                        infoJogador.getJogosParticipados(),
-                        infoJogador.getVitorias(),
-                        infoJogador.getEmpates(),
-                        infoJogador.getDerrotas()));
+                        infoJogador.getPontuacao()));
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -64,11 +60,7 @@ public class UsuarioController {
                             usuario.getNome(),
                             usuario.getEmail(),
                             usuario.getImagem(),
-                            infoJogador.getPontuacao(),
-                            infoJogador.getJogosParticipados(),
-                            infoJogador.getVitorias(),
-                            infoJogador.getEmpates(),
-                            infoJogador.getDerrotas()));
+                            infoJogador.getPontuacao()));
                 }
 
                 return ResponseEntity.ok(listaInfoJogadores);
@@ -93,11 +85,7 @@ public class UsuarioController {
                         usuarioRequerido.getNome(),
                         usuarioRequerido.getEmail(),
                         usuarioRequerido.getImagem(),
-                        infoJogador.getPontuacao(),
-                        infoJogador.getJogosParticipados(),
-                        infoJogador.getVitorias(),
-                        infoJogador.getEmpates(),
-                        infoJogador.getDerrotas()));
+                        infoJogador.getPontuacao()));
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -151,11 +139,7 @@ public class UsuarioController {
                         usuarioBackEnd.getNome(),
                         usuarioBackEnd.getEmail(),
                         usuarioBackEnd.getImagem(),
-                        infoJogador.getPontuacao(),
-                        infoJogador.getJogosParticipados(),
-                        infoJogador.getVitorias(),
-                        infoJogador.getEmpates(),
-                        infoJogador.getDerrotas());
+                        infoJogador.getPontuacao());
 
                 return ResponseEntity.ok(usuarioFrontEndCompleto);
             } else {

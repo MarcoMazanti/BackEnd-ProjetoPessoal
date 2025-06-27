@@ -8,12 +8,8 @@ public class UsuarioFrontEndCompleto {
     private String email;
     private String imagem;
     private int pontuacao;
-    private int jogosParticipados;
-    private int vitorias;
-    private int empates;
-    private int derrotas;
 
-    public UsuarioFrontEndCompleto(int id, String nome, String email, byte[] imagem, int pontuacao, int jogosParticipados, int vitorias, int empates, int derrotas) {
+    public UsuarioFrontEndCompleto(int id, String nome, String email, byte[] imagem, int pontuacao) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -23,10 +19,6 @@ public class UsuarioFrontEndCompleto {
             this.imagem = null;
         }
         this.pontuacao = pontuacao;
-        this.jogosParticipados = jogosParticipados;
-        this.vitorias = vitorias;
-        this.empates = empates;
-        this.derrotas = derrotas;
     }
 
     public int getId() {
@@ -67,37 +59,5 @@ public class UsuarioFrontEndCompleto {
 
     public void setPontuacao(int pontuacao) {
         this.pontuacao = pontuacao;
-    }
-
-    public int getJogosParticipados() {
-        return jogosParticipados;
-    }
-
-    public void setJogosParticipados(int jogosParticipados) {
-        this.jogosParticipados = jogosParticipados;
-    }
-
-    public int getVitorias() {
-        return vitorias;
-    }
-
-    public void setVitorias(int vitorias) {
-        this.vitorias = vitorias;
-    }
-
-    public int getEmpates() {
-        return empates;
-    }
-
-    public void setEmpates(int empates) {
-        this.empates = empates;
-    }
-
-    public int getDerrotas() {
-        return derrotas;
-    }
-
-    public void setDerrotas(int derrotas) {
-        this.derrotas = derrotas;
     }
 }

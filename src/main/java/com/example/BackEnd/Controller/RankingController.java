@@ -1,7 +1,7 @@
 package com.example.BackEnd.Controller;
 
 import com.example.BackEnd.Model.RankingJogador;
-import com.example.BackEnd.Repository.TabelaRanking;
+import com.example.BackEnd.Repository.TabelaInfoJogador;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ public class RankingController {
     @GetMapping("/jogadores")
     public ResponseEntity<?> getRankingJogadores() {
         try {
-            List<RankingJogador> ranking = TabelaRanking.getRanking();
+            List<RankingJogador> ranking = TabelaInfoJogador.getRanking();
 
             return ResponseEntity.ok(ranking);
         } catch (SQLException e) {
@@ -29,7 +29,7 @@ public class RankingController {
     @GetMapping("/jogador/{id}")
     public ResponseEntity<?> getRankingJogador(@PathVariable("id") int id) {
         try {
-            RankingJogador rankingJogador = TabelaRanking.getRankingUnico(id);
+            RankingJogador rankingJogador = TabelaInfoJogador.getRankingJogador(id);
 
             if (rankingJogador != null) {
                 return ResponseEntity.ok(rankingJogador);

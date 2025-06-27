@@ -124,9 +124,6 @@ public class TabelaUsuario {
         // Tabela info_jogador
         TabelaInfoJogador.postInfoJogador(usuarioLogado.getId(), usuarioLogado.getNome());
 
-        // Tabela ranking
-        TabelaRanking.postRanking(usuarioLogado.getId(), usuarioLogado.getNome());
-
         return "Usuario cadastrado com sucesso!";
     }
 
