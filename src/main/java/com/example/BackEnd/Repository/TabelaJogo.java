@@ -74,14 +74,14 @@ public class TabelaJogo {
     }
 
     public static String updateJogo(int id_jogador, int pontuacao) throws SQLException, JsonProcessingException {
-        Jogo jogo = getJogoAndamento(id_jogador);
+        Jogo jogoAndamento = getJogoAndamento(id_jogador);
 
-        if (jogo != null) {
-            String sql = "UPDATE jogo WHERE id = ? SET pontuacao = ? AND fim = 1";
+        if (jogoAndamento != null) {
+            String sql = "UPDATE jogo SET pontuacao = ? , fim = 1 WHERE id = ?";
             PreparedStatement stmt = conexao.prepareStatement(sql);
 
-            stmt.setInt(1, jogo.getId());
-            stmt.setInt(2, pontuacao);
+            stmt.setInt(1, pontuacao);
+            stmt.setInt(2, jogoAndamento.getId());
 
             stmt.execute();
             stmt.close();

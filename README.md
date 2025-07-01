@@ -18,8 +18,7 @@
 - [X] Criar Endpoints para Ranking
 - [X] Criação do Sistema de Amizade
 - [X] Criação do Sistema de Chat
-- [ ] Criação da Lógica do Campo Minado
-- [ ] Verificação de Jogadas
+- [X] Criação da Lógica do Campo Minado
 
 ### Tecnologias
 - Java
@@ -27,7 +26,7 @@
 - SQL
 
 ### Status
-Em andamento
+Concluído
 
 ### Link ao BackEnd
 [FrontEnd-ProjetoPessoal](https://github.com/MarcoMazanti/FrontEnd-ProjetoPessoal)
@@ -38,3 +37,6 @@ Em andamento
 
 ## Data de Início
 #### 2025-05-11
+
+## Data de Término
+#### 2025-06-30

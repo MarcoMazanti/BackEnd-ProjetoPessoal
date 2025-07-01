@@ -72,8 +72,7 @@ public class TabelaInfoJogador {
                     0
             ));
         }
-
-        listaRankingJogadores.sort(Comparator.comparing(RankingJogador::getPontuacao));
+        listaRankingJogadores.sort(Comparator.comparing(RankingJogador::getPontuacao).reversed());
 
         int index = 1;
         for (RankingJogador jogador : listaRankingJogadores) {

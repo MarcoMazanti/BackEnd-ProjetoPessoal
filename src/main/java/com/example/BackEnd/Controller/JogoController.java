@@ -1,14 +1,14 @@
 package com.example.BackEnd.Controller;
 
 import com.example.BackEnd.Model.DadosMapa;
+import com.example.BackEnd.Model.InfoJogador;
 import com.example.BackEnd.Model.Jogo;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-
+import static com.example.BackEnd.Repository.TabelaInfoJogador.getInfoJogadorUnico;
+import static com.example.BackEnd.Repository.TabelaInfoJogador.putInfoJogador;
 import static com.example.BackEnd.Repository.TabelaJogo.*;
 import static com.example.BackEnd.Repository.TabelaJogo.getJogoAndamento;
 import static com.example.BackEnd.Service.CriacaoMapa.*;
@@ -77,21 +77,21 @@ public class JogoController {
                 
                 return ResponseEntity.ok(postNovoJogo(jogo));
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("O Jogador já está em um jogo!");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
-    @PutMapping("{id}/{pontuacao}")
-    public ResponseEntity<?> putJogo(@PathVariable int id, @PathVariable int pontuacao) {
+    @PutMapping("{idJogador}/{pontuacao}")
+    public ResponseEntity<?> putJogo(@PathVariable int idJogador, @PathVariable int pontuacao) {
         try {
-            if (getJogoAndamento(id) == null) {
-                return ResponseEntity.ok(updateJogo(id, pontuacao));
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-            }
+            InfoJogador dadosAntigos = getInfoJogadorUnico(idJogador);
+
+            putInfoJogador(idJogador, pontuacao + dadosAntigos.getPontuacao());
+
+            return ResponseEntity.ok(updateJogo(idJogador, pontuacao));
         }  catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

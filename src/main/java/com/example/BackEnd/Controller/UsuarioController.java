@@ -12,9 +12,7 @@ import org.springframework.http.HttpStatus;
 import com.example.BackEnd.Model.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController

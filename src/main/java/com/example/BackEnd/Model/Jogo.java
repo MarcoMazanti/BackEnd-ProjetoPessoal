@@ -78,7 +78,6 @@ public class Jogo {
     }
 
     public static String arrayToString(int[][] array) {
-
         return Arrays.deepToString(array);
     }
 }
